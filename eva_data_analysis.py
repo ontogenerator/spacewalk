@@ -37,6 +37,29 @@ def write_dataframe_to_csv(df, output_file):
     # Save dataframe to CSV file for later analysis
     df.to_csv(output_file, index=False)
 
+def plot_cumulative_time_in_space(df, graph_file):
+    """
+    Calculate cumulative time spent in space from pandas dataframe and plot by date.
+
+    Args:
+        df (pd.DataFrame): The dataframe to be plotted.
+        graph_file (str): The path to the output graph file.
+    
+    Returns:
+        None
+
+    """
+    print(f'Plotting cumulative spacewalk duration and saving to {graph_file}')
+    # Process the duration from a string (00:00) to a float
+    df['duration_hours'] = df['duration'].str.split(":").apply(lambda x: int(x[0]) + int(x[1])/60)
+    df['cumulative_time'] = df['duration_hours'].cumsum()
+    # Plot cumulative time spent in space over years
+    plt.plot(df['date'], df['cumulative_time'], 'ko-')
+    plt.xlabel('Year')
+    plt.ylabel('Total time spent in space to date (hours)')
+    plt.tight_layout()
+    plt.savefig(graph_file)
+    plt.show()
 
 # Main code
 
@@ -52,27 +75,7 @@ eva_data = read_json_to_dataframe(input_file)
 # Convert and export data to CSV file
 write_dataframe_to_csv(eva_data, output_file)
 
-def plot_cumulative_time_in_space(df, graph_file):
-    """
-    Calculate cumulative time spent in space and plot by date.
-
-    Args:
-        df (pd.DataFrame): The dataframe to be plotted.
-        graph_file (str): The path to the output plot file.
-
-    """
-    print(f'Plotting cumulative spacewalk duration and saving to {graph_file}')
-    # Calculate cumulative time spent in space
-    df['duration_hours'] = df['duration'].str.split(":").apply(lambda x: int(x[0]) + int(x[1])/60)
-    df['cumulative_time'] = df['duration_hours'].cumsum()
-    # Plot cumulative time spent in space over years
-    plt.plot(df['date'], df['cumulative_time'], 'ko-')
-    plt.xlabel('Year')
-    plt.ylabel('Total time spent in space to date (hours)')
-    plt.tight_layout()
-    plt.savefig(graph_file)
-    plt.show()
-
+# Plot cumulative time in space
 plot_cumulative_time_in_space(eva_data, graph_file)
 
 print("--END--")
