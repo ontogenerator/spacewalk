@@ -27,7 +27,7 @@ def calculate_crew_size(crew):
         crew (str): The text entry in the crew column containing a list of crew member names
 
     Returns:
-        int: The crew size
+        (int): The crew size
     """
     if crew.split() == []:
         return None
@@ -61,7 +61,7 @@ def write_dataframe_to_csv(df, output_file):
         output_file (str): The path to the output CSV file.
 
     Returns:
-        None
+        (None)
     """
     print(f'Saving to CSV file {output_file}')
     df.to_csv(output_file, index=False)
@@ -112,7 +112,7 @@ def plot_cumulative_time_in_space(df, graph_file):
         graph_file (str): The path to the output graph file.
 
     Returns:
-        None
+        (None)
     """
     print(f'Plotting cumulative spacewalk duration and saving to {graph_file}')
     df = add_duration_hours_variable(df)
@@ -136,5 +136,5 @@ if __name__ == "__main__":
         output_file = sys.argv[2]
         print('Using custom input and output filenames')
 
-    graph_file = '../figures/cumulative_eva_graph.png'
+    graph_file = os.path.join('..', 'figures', 'cumulative_eva_graph.png')
     main(input_file, output_file, graph_file)

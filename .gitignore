@@ -7,3 +7,4 @@ venv_*
 __pycache__
 results
 .coverage
+site
