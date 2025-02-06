@@ -14,11 +14,37 @@ Key features of Spacewalks:
 
 Spacewalks was developed using Python version 3.12
 
-To install and run Spacewalks you will need have Python >=3.12
-installed. You will also need the following libraries (minimum versions in brackets)
+To install and run Spacewalks you will need have Python >=3.10
+installed. Further libraries are listed in the `requirements.txt`.
 
-- [NumPy](https://www.numpy.org/) >=2.0.0 - Spacewalk's test suite uses NumPy's statistical functions
-- [Matplotlib](https://matplotlib.org/stable/index.html) >=3.0.0  - Spacewalks uses Matplotlib to make plots
-- [pytest](https://docs.pytest.org/en/8.2.x/#) >=8.2.0  - Spacewalks uses pytest for testing
-- [pandas](https://pandas.pydata.org/) >= 2.2.0 - Spacewalks uses pandas for data frame manipulation 
+## Installation
 
+Clone the Spacewalks repository to your local machine using Git.
+If you don't have Git installed, you can download it from the official Git website.
+
+It is recommended to create a virtual environment, from the project directory:
+
+```
+python3 -m venv venv_spacewalks
+```
+Then, activate the environment:
+(On Linux or Mac):
+```
+source venv_spacewalks/bin/activate
+```
+(On Windows):
+```
+source venv_spacewalks/Scripts/activate
+```
+And finally install the libraries in `requirements.txt`:
+```
+python3 -m pip install -r requirements.txt
+```
+
+## Usage Example
+
+```
+python3 eva_data_analysis.py eva-data.json eva-data.csv
+```
+The first argument is path to the JSON data file (and example data file is stored under the `data` directory).
+The second argument is the path the CSV output file.
