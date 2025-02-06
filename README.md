@@ -41,7 +41,7 @@ And finally install the libraries in `requirements.txt`:
 python3 -m pip install -r requirements.txt
 ```
 
-To ensure everything is working correctly, run the tests using pytest, from within the src folder.
+To ensure everything is working correctly, run the tests using pytest, from within the src directory.
 ```
 python3 -m pytest
 ```
