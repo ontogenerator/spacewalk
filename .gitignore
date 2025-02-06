@@ -6,3 +6,4 @@ spacewalk.Rproj
 venv_*
 __pycache__
 results
+.coverage
