@@ -51,6 +51,26 @@ def add_crew_size_column(df):
     )
     return df_copy
 
+def read_json_to_dataframe(input_file):
+    """
+    Read the data from a JSON file into a Pandas dataframe.
+    Clean the data by removing any incomplete rows and sort by date
+
+    Args:
+        input_file_ (str): The path to the JSON file.
+
+    Returns:
+         eva_df (pd.DataFrame): The cleaned and sorted data as a dataframe structure
+    """
+    print(f'Reading JSON file {input_file}')
+    # Read the data from a JSON file into a Pandas dataframe
+    eva_df = pd.read_json(input_file, convert_dates=['date'])
+    eva_df['eva'] = eva_df['eva'].astype(float)
+    # Clean the data by removing any incomplete rows and sort by date
+    eva_df.dropna(axis=0, inplace=True)
+    eva_df.sort_values('date', inplace=True)
+    return eva_df
+
 
 def write_dataframe_to_csv(df, output_file):
     """
