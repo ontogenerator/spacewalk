@@ -2,11 +2,14 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import sys
 import os
+import re
 
 def main(input_file, output_file, graph_file):
     print("--START--")
 
     eva_data = read_json_to_dataframe(input_file)
+
+    eva_data = add_crew_size_column(eva_data) # added this line
 
     write_dataframe_to_csv(eva_data, output_file)
 
@@ -14,23 +17,39 @@ def main(input_file, output_file, graph_file):
 
     print("--END--")
 
-def read_json_to_dataframe(input_file):
+... 
+
+def calculate_crew_size(crew):
     """
-    Read the data from a JSON file into a Pandas dataframe.
-    Clean the data by removing any incomplete rows and sort by date
+    Calculate the size of the crew for a single crew entry
 
     Args:
-        input_file_ (str): The path to the JSON file.
+        crew (str): The text entry in the crew column containing a list of crew member names
 
     Returns:
-         eva_df (pd.DataFrame): The cleaned and sorted data as a dataframe structure
+        int: The crew size
     """
-    print(f'Reading JSON file {input_file}')
-    eva_df = pd.read_json(input_file, convert_dates=['date'])
-    eva_df['eva'] = eva_df['eva'].astype(float)
-    eva_df.dropna(axis=0, inplace=True)
-    eva_df.sort_values('date', inplace=True)
-    return eva_df
+    if crew.split() == []:
+        return None
+    else:
+        return len(re.split(r';', crew))-1
+
+def add_crew_size_column(df):
+    """
+    Add crew_size column to the dataset containing the value of the crew size
+
+    Args:
+        df (pd.DataFrame): The input data frame.
+
+    Returns:
+        df_copy (pd.DataFrame): A copy of df with the new crew_size variable added
+    """
+    print('Adding crew size variable (crew_size) to dataset')
+    df_copy = df.copy()
+    df_copy["crew_size"] = df_copy["crew"].apply(
+        calculate_crew_size
+    )
+    return df_copy
 
 
 def write_dataframe_to_csv(df, output_file):
@@ -58,7 +77,7 @@ def text_to_duration(duration):
         duration_hours (float): The duration in hours
     """
     hours, minutes = duration.split(":")
-    duration_hours = int(hours) + int(minutes)/6  # there is an intentional bug on this line (should divide by 60 not 6)
+    duration_hours = int(hours) + int(minutes)/60
     return duration_hours
 
 
